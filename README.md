@@ -19,8 +19,16 @@ To use check out the test or see the example below:
 
 Because we are using em-http-request and basically forwarding the arguments to this library, please see the following doc for more information about what is possible for :options => https://github.com/igrigorik/em-http-request/wiki/Issuing-Requests
 
+Add the following to your options hash if you want to include parameters to your GET or POST
+
+Query options for GETs
+	{:query => {:param1 => 'blah', :param2 => 'blah blah'}}
+
+Body options for POSTs
+	{:body => {:param1 => 'blah', :param2 => 'blah blah'}}
+
 *************
 HELP
 *************
 
-Currently, I've only tested this with GET, though it should theoretically work for all of the verbs.  If you want to write a test for any of these other verbs or if you would like to modify the code so it works with an existing eventmachine reactor feel free and send me a pull request.  I will review and integrate.
+Currently, I've only tested this with GET and POST, though it should theoretically work for all of the verbs.  If you want to write a test for any of these other verbs or if you would like to modify the code so it works with an existing eventmachine reactor feel free and send me a pull request.  I will review and integrate.
