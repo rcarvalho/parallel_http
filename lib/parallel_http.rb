@@ -24,7 +24,7 @@ class ParallelHttp
 				result = self.single(request)
 				ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
 				body = ic.iconv(result.response)
-				results << {id: request[:id], response_code: result.response_header.status, body: body}
+				results << {:id => request[:id], :response_code => result.response_header.status, :body => body}
 				EM.stop if request_size == results.size
 			end.resume
 		end

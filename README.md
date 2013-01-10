@@ -11,14 +11,13 @@ loop during the course of a single request/response.
 To use check out the test or see the example below:
 
 	user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3"
-	options = {head: {"User-Agent" => user_agent}, redirects: 3}
-	requests = [{id: 1, verb: 'get', url: 'http://google.com', options: options},
-				  		{id: 2, verb: 'get', url: 'http://yahoo.com', options: options},
-				  		{id: 3, verb: 'get', url: 'http://bing.com', options: options}]
+	options = {:head => {"User-Agent" => user_agent}, :redirects => 3}
+	requests = [{:id => 1, :verb => 'get', :url => 'http://google.com', :options => options},
+				  		{:id => 2, :verb => 'get', :url => 'http://yahoo.com', :options => options},
+				  		{:id => 3, :verb => 'get', :url => 'http://bing.com', :options => options}]
 	results = ParallelHttp.exec(requests)
 
-Because we are using em-http-request and basically forwarding the arguments to this library, please see the following doc for more information about what is possible for options:
-https://github.com/igrigorik/em-http-request/wiki/Issuing-Requests
+Because we are using em-http-request and basically forwarding the arguments to this library, please see the following doc for more information about what is possible for :options => https://github.com/igrigorik/em-http-request/wiki/Issuing-Requests
 
 *************
 HELP
