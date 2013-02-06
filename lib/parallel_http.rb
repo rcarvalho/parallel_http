@@ -18,7 +18,7 @@ class ParallelHttp
 	end
 
 	def self.exec_result id, result
-		body = result.response.encode('utf-8')
+		body = result.response.encode('utf-8', :invalid => :replace, :undef => :replace)
 		@@results << {:id => id, :response_code => result.response_header.status, :body => body}
 		EM.stop if @@request_size == @@results.size
 	end
