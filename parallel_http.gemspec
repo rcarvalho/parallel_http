@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'parallel_http'
-  s.version     = '0.0.4'
-  s.date        = '2013-01-10'
+  s.version     = '0.0.5'
+  s.date        = '2013-02-06'
   s.summary     = "Parallel HTTP calls"
   s.description = "Make parallel http calls using EventMachine under the hood"
   s.authors     = ["Rodney Carvalho"]
