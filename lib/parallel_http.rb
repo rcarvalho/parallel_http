@@ -1,4 +1,3 @@
-require 'iconv'
 require 'eventmachine'
 require 'em-http-request'
 
@@ -19,8 +18,7 @@ class ParallelHttp
 	end
 
 	def self.exec_result id, result
-		ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
-		body = ic.iconv(result.response)
+		body = result.response.encode('utf-8')
 		@@results << {:id => id, :response_code => result.response_header.status, :body => body}
 		EM.stop if @@request_size == @@results.size
 	end
