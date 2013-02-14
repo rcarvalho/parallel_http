@@ -37,10 +37,17 @@ class ParallelHttp
 		opts = request[:options] || {}
 		http = EventMachine::HttpRequest.new(request[:url], options).send(request[:verb].downcase, opts)
 		http.callback do
+			@@success = request[:options][:query][:url] 
+			# puts "SUCCESS: #{request[:options][:query][:url]}"
 			ParallelHttp.exec_result(request[:id], http)
+			http.close(nil)
 		end
-		http.errback do |error|
-			ParallelHttp.exec_result(request[:id], http, http.error)
+		http.errback do |h|
+			if request[:options][:query][:url] != @@success 
+				# puts "FAILURE: #{request[:options][:query][:url]}"
+				ParallelHttp.exec_result(request[:id], h, h.error)
+				http.close(nil)
+			end
 		end
 	end
 end

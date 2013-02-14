@@ -1,3 +1,4 @@
+02/14/13 - Version 0.0.15 - Having to compensate for double callback from HTTPRequest library.
 02/14/13 - Version 0.0.11 - Adding ability to give timeout options
 02/14/13 - Version 0.0.8 - Adding Iconv for 1.8.7
 02/14/13 - Version 0.0.7 - Adding error propagation
