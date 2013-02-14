@@ -1,3 +1,5 @@
+02/14/13 - Version 0.0.8 - Adding Iconv for 1.8.7
+02/14/13 - Version 0.0.7 - Adding error propagation
 01/10/13 - Version 0.0.3 - Removing Fiber for 1.8.7
 01/10/13 - Version 0.0.2 - Downgrading hash syntax for Ruby 1.8.7
 01/08/13 - Version 0.0.1 - Initial ParallelHttp released

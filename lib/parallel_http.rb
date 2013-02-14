@@ -18,7 +18,12 @@ class ParallelHttp
 	end
 
 	def self.exec_result id, result, error=nil
-		body = result.response.force_encoding('UTF-8').encode('UTF-16', :invalid => :replace, :replace => '').encode('UTF-8')
+		body = ''
+		if RUBY_VERSION.to_f < 1.9
+			body = Iconv.iconv('UTF-8//IGNORE', 'UTF-8',  result.response) 
+		else
+			body = result.response.force_encoding('UTF-8').encode('UTF-16', :invalid => :replace, :replace => '').encode('UTF-8')
+		end
 		hsh = {:id => id, :response_code => result.response_header.status, :body => body}
 		hsh.merge!(:error => error) if error
 		@@results << hsh
