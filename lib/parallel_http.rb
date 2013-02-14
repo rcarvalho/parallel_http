@@ -2,7 +2,7 @@ require 'eventmachine'
 require 'em-http-request'
 
 class ParallelHttp
-	def self.exec requests
+	def self.exec requests, options
 		@@results = []
 		@@request_size = requests.size
 		if EM.reactor_running?
@@ -10,7 +10,7 @@ class ParallelHttp
 		else
 			EM.run do
 				requests.each do |request|
-					ParallelHttp.single(request)
+					ParallelHttp.single(request, options)
 				end
 			end
 		end
@@ -25,22 +25,22 @@ class ParallelHttp
 			body = result.response.force_encoding('UTF-8').encode('UTF-16', :invalid => :replace, :replace => '').encode('UTF-8')
 		end
 		hsh = {:id => id, :response_code => result.response_header.status, :body => body}
-		hsh.merge!(:errors => errors) if errors
+		hsh.merge!(:error => error) if error
 		@@results << hsh
 		if @@request_size == @@results.size
 			EM.stop 
 		end
 	end
 
-	def self.single request
+	def self.single request, options
 		# puts "making a request #{request[:url]}, #{request[:verb]}, #{request[:options]}"
 		opts = request[:options] || {}
-		http = EventMachine::HttpRequest.new(request[:url]).send(request[:verb].downcase, opts)
+		http = EventMachine::HttpRequest.new(request[:url], options).send(request[:verb].downcase, opts)
 		http.callback do
 			ParallelHttp.exec_result(request[:id], http)
 		end
 		http.errback do |error|
-			ParallelHttp.exec_result(request[:id], http, http.errors)
+			ParallelHttp.exec_result(request[:id], http, http.error)
 		end
 	end
 end
