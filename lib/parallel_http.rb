@@ -10,27 +10,32 @@ class ParallelHttp
 		else
 			EM.run do
 				requests.each do |request|
-					result = self.single(request)
+					ParallelHttp.single(request)
 				end
 			end
 		end
 		@@results
 	end
 
-	def self.exec_result id, result
+	def self.exec_result id, result, error=nil
 		body = result.response.force_encoding('UTF-8').encode('UTF-16', :invalid => :replace, :replace => '').encode('UTF-8')
-		@@results << {:id => id, :response_code => result.response_header.status, :body => body}
-		EM.stop if @@request_size == @@results.size
+		hsh = {:id => id, :response_code => result.response_header.status, :body => body}
+		hsh.merge!(:error => error) if error
+		@@results << hsh
+		if @@request_size == @@results.size
+			EM.stop 
+		end
 	end
 
 	def self.single request
 		# puts "making a request #{request[:url]}, #{request[:verb]}, #{request[:options]}"
-		http = EventMachine::HttpRequest.new(request[:url]).send(request[:verb].downcase, request[:options] || {})
+		opts = request[:options] || {}
+		http = EventMachine::HttpRequest.new(request[:url]).send(request[:verb].downcase, opts)
 		http.callback do
-			self.exec_result(request[:id], http)
+			ParallelHttp.exec_result(request[:id], http)
 		end
-		http.errback do
-			self.exec_result(request[:id], http)
+		http.errback do |error|
+			ParallelHttp.exec_result(request[:id], http, error)
 		end
 	end
 end
