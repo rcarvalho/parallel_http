@@ -1,1 +1,1 @@
-rvm use ruby-1.9.3@parallel_http --create
+rvm use ree-1.8.7@parallel_http --create

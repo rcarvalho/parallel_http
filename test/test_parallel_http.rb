@@ -11,7 +11,7 @@ class ParallelHttpTest < Test::Unit::TestCase
 		results = ParallelHttp.exec(requests)
 		results.each do |result|
 			assert_equal 200, result[:response_code]
-			assert_match /#{checks[result[:id]]}/, result[:body]
+			assert_match checks[result[:id]], result[:body]
 		end
 		puts "getting #{results.size} responses"
 		assert_equal 3, results.size

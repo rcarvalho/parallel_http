@@ -1,3 +1,4 @@
+02/15/13 - Version 0.0.18 - Fixing encoding for 1.8.7.
 02/15/13 - Version 0.0.17 - Adding verbosity.
 02/15/13 - Version 0.0.16 - Fixing wrong var name.
 02/14/13 - Version 0.0.15 - Having to compensate for double callback from HTTPRequest library.

@@ -1,5 +1,6 @@
 require 'eventmachine'
 require 'em-http-request'
+require 'iconv' if RUBY_VERSION.to_f < 1.9
 
 class ParallelHttp
 	@@verbose = false
@@ -25,7 +26,7 @@ class ParallelHttp
 	def self.exec_result id, result, error=nil
 		body = ''
 		if RUBY_VERSION.to_f < 1.9
-			body = Iconv.iconv('UTF-8//IGNORE', 'UTF-8',  result.response) 
+			body = Iconv.iconv('UTF-8//IGNORE', 'UTF-8',  result.response).first
 		else
 			body = result.response.force_encoding('UTF-8').encode('UTF-16', :invalid => :replace, :replace => '').encode('UTF-8')
 		end
