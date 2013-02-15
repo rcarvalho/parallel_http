@@ -2,6 +2,11 @@ require 'eventmachine'
 require 'em-http-request'
 
 class ParallelHttp
+	@@verbose = false
+	def self.verbose!
+		@@verbose = true
+	end
+	
 	def self.exec requests, options={}
 		@@results = []
 		@@request_size = requests.size
@@ -33,21 +38,22 @@ class ParallelHttp
 	end
 
 	def self.single request, options
-		puts "making a request #{request[:url]}, #{request[:verb]}, #{request[:options]}"
+
+		puts "making a request #{request[:url]}, #{request[:verb]}, #{request[:options]}" if @@verbose
 		opts = request[:options] || {}
 		http = EventMachine::HttpRequest.new(request[:url], options).send(request[:verb].downcase, opts)
 		http.callback do
-			puts "SUCCESS: #{request[:id]}"
-			# @@success = request[:id]
+			puts "SUCCESS: #{request[:id]}" if @@verbose
+			@@success = request[:id]
 			ParallelHttp.exec_result(request[:id], http)
 			http.close(nil)
 		end
 		http.errback do |h|
-			# if @@success != request[:id]
-				puts "FAILURE: #{request[:id]}"
+			if @@success != request[:id]
+				puts "FAILURE: #{request[:id]}" if @@verbose
 				ParallelHttp.exec_result(request[:id], h, h.error)
 				http.close(nil)
-			# end
+			end
 		end
 	end
 end
