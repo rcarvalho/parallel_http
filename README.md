@@ -15,7 +15,10 @@ To use check out the test or see the example below:
 	requests = [{:id => 1, :verb => 'get', :url => 'http://google.com', :options => options},
 				  		{:id => 2, :verb => 'get', :url => 'http://yahoo.com', :options => options},
 				  		{:id => 3, :verb => 'get', :url => 'http://bing.com', :options => options}]
-	results = ParallelHttp.exec(requests)
+	opts = {:connect_timeout => 5000, :inactivity_timeout => 0}
+	# connection_timeout and activity_timeout are in seconds.  
+	# 0 for activity timeout disables it.
+	results = ParallelHttp.exec(requests, opts)
 
 Because we are using em-http-request and basically forwarding the arguments to this library, please see the following doc for more information about what is possible for :options => https://github.com/igrigorik/em-http-request/wiki/Issuing-Requests
 
