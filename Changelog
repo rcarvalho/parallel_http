@@ -1,3 +1,5 @@
+10/21/13 - Version 0.0.23 - Adding code for accepting gzip compression
+10/11/13 - Version 0.0.21 - Sendin back last effective url (for redirected page)
 05/07/13 - Version 0.0.20 - Sending URL back in results
 02/19/13 - Version 0.0.19 - Removing unnecessary close connection causing problems.
 02/15/13 - Version 0.0.18 - Fixing encoding for 1.8.7.
