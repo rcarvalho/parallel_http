@@ -1,3 +1,4 @@
+11/06/13 - Version 0.0.24 - Updating dependencies versions
 10/21/13 - Version 0.0.23 - Adding code for accepting gzip compression
 10/11/13 - Version 0.0.21 - Sendin back last effective url (for redirected page)
 05/07/13 - Version 0.0.20 - Sending URL back in results
