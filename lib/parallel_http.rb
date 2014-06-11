@@ -10,12 +10,14 @@ class ParallelHttp
 	def self.verbose!
 		@@verbose = true
 	end
-	
+
 	def self.exec requests, options={}
 		@@results = []
 		@@request_size = requests.size
 		if @@reactor_running
-			@@results = [{:error => "Have not tested this with an eventmachine reactor that is already running.  Might have to change the code around a bit... I have an EM.stop in there and I know that would be bad if I shut down your reactor."}]
+			requests.each do |request|
+				ParallelHttp.single(request, options)
+			end
 		else
 			EM.run do
 				requests.each do |request|
@@ -29,7 +31,7 @@ class ParallelHttp
 	def self.add requests, options={}
 		requests.each do |request|
 			ParallelHttp.single(request, options)
-		end		
+		end
 	end
 
 	def self.results
@@ -47,7 +49,7 @@ class ParallelHttp
 		hsh.merge!(:error => error) if error
 		@@results << hsh
 		if @@request_size == @@results.size && !@@reactor_running
-			EM.stop 
+			EM.stop
 		end
 	end
 
